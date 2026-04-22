@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sadece Bir Soru...</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+            /* Mobil tıklama efektini kaldırır */
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #fdf2f8;
+            /* Çok açık pembe */
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            /* Kaçan buton ekranı kaydırmasın */
+        }
+
+        .container {
+            text-align: center;
+            background: white;
+            padding: 30px 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+            width: 85%;
+            max-width: 350px;
+            border: 1px solid #fbcfe8;
+        }
+
+        h1 {
+            color: #be185d;
+            /* Koyu pembe */
+            font-size: 20px;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            font-weight: 600;
+        }
+
+        .buttons-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            height: 50px;
+            /* Butonların hizasını korumak için sabit yükseklik */
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 100px;
+        }
+
+        #yesBtn {
+            background-color: #ec4899;
+            /* Pembe */
+            color: white;
+            box-shadow: 0 4px 6px rgba(236, 72, 153, 0.3);
+            z-index: 2;
+            /* Evet butonu hep üstte kalsın */
+        }
+
+        #yesBtn:active {
+            transform: scale(0.95);
+        }
+
+        #noBtn {
+            background-color: #f3f4f6;
+            /* Açık gri */
+            color: #4b5563;
+            /* Başlangıçta Evet'in yanında durması için relative */
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Normal arkadaş kalalım mı? 👋</h1>
+        <div class="buttons-container">
+            <button id="yesBtn" class="btn" onclick="goToVideo()">Evet</button>
+            <button id="noBtn" class="btn">Hayır</button>
+        </div>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+
+        // Mobilde dokunma (touchstart) olayını yakalıyoruz
+        noBtn.addEventListener('touchstart', moveButton);
+        // Masaüstünde test etmek için mouseover olayını da ekledik
+        noBtn.addEventListener('mouseover', moveButton);
+
+        function moveButton(e) {
+            // Mobilde varsayılan tıklama davranışını engelle (hayır diyemesin)
+            if (e.type === 'touchstart') {
+                e.preventDefault();
+            }
+
+            // Butonu ekranın rastgele bir yerine fırlat
+            const padding = 20; // Ekran kenarlarına çok yapışmasın
+
+            // Butonun boyutlarını al
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            // Ekran boyutlarını al
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+
+            // Rastgele yeni X ve Y koordinatları hesapla
+            // (Padding ve buton boyutunu hesaba katarak ekran içinde kalmasını sağlıyoruz)
+            const randomX = Math.random() * (screenWidth - btnWidth - padding * 2) + padding;
+            const randomY = Math.random() * (screenHeight - btnHeight - padding * 2) + padding;
+
+            // Butonu fixed yapıp yeni konumuna taşı
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+
+            // Estetik bir efekt: kaçarken hafifçe küçültüp büyüt
+            noBtn.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+                noBtn.style.transform = 'scale(1)';
+            }, 100);
+        }
+
+        function goToVideo() {
+            window.location.href = "https://www.youtube.com/shorts/7I98Q4NXpEo";
+        }
+    </script>
+</body>
+
+</html>
